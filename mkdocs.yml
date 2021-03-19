@@ -1,0 +1,30 @@
+site_name: RDKit Tools Documentation
+# site_url: https://sinagot.readthedocs.io
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - markdown_include.include
+
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_root_heading: true
+            show_source: false
+            show_if_no_docstring: true
+            group_by_category: true
+      watch:
+        - chem_kit
+  - mknotebooks
+
+theme:
+  name: material
+
+extra_css:
+  - custom.css
