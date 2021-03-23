@@ -1,5 +1,5 @@
-site_name: RDKit Tools Documentation
-# site_url: https://sinagot.readthedocs.io
+site_name: ChemKit Documentation
+site_url: http://chem-kit.metwork.science
 
 markdown_extensions:
   - admonition
