@@ -1,4 +1,6 @@
+from __future__ import annotations
 import re
+from typing import List
 from rdkit import Chem
 from rdkit.Chem import AllChem
 from chem_kit.molecule import Molecule
@@ -9,7 +11,7 @@ from .simplifier import TransformationSimplifier, SimplifierParams
 
 class Transformation:
     """
-    Instance of (bio-)transformation, a.k.a Reaction in RDKit.
+    Instance of (bio-)transformation, using RDKit `Reaction` class.
 
     It's instantiate by providing SMARTS
     but it's also possible to `from_smiles()`
@@ -22,7 +24,11 @@ class Transformation:
         ```
     """
 
-    def __init__(self, smarts):
+    def __init__(self, smarts: str):
+        """
+        Args:
+            smarts: SMARTS of the transformation to create
+        """
         self._set_from_smarts(smarts)
 
     def _set_from_smarts(self, smarts):
@@ -30,32 +36,47 @@ class Transformation:
         self._rdkit = AllChem.ReactionFromSmarts(smarts)
 
     @classmethod
-    def from_smiles(cls, reactant: str, product: str) -> "Transformation":
+    def from_smiles(cls, reactant: str, product: str) -> Transformation:
         """
         Args:
             reactant: SMILES of reactant
             product: SMILES of product
+
+        Returns:
+            Transformation instance
         """
         return cls(SmartsFromSmiles(reactant, product))
 
     @classmethod
-    def from_metwork_v0(cls, smarts: str) -> "Transformation":
+    def from_metwork_v0(cls, smarts: str) -> Transformation:
         """
         Args:
             smarts: smarts from MetWork v0 reaction database
+
+        Returns:
+            Transformation instance
         """
         return cls(SmartsFromMetWorkV0(smarts))
 
     @property
     def smarts(self) -> str:
+        """The SMARTS of the transformation."""
         return self._smarts
 
     @property
     def rdkit(self) -> Chem.rdChemReactions.ChemicalReaction:
+        """
+        The `Chem.rdChemReactions.ChemicalReaction` instance
+        associate with the transformation.
+        """
         return self._rdkit
 
     @property
     def chemdoodle_json(self) -> dict:
+        """
+        [ChemDoodle JSON](https://web.chemdoodle.com/docs/chemdoodle-json-format)
+        format of the transformation.
+        """
         return ChemDoodle.react_to_json(self.rdkit)
 
     def _repr_png_(self):
@@ -66,8 +87,10 @@ class Transformation:
 
     def run(self, smiles: str):
         """
+        Run the transformation for a reactant.
+
         Args:
-            smiles: SMILES of reactant.
+            smiles: SMILES of the reactant
         """
         react = Molecule(smiles).rdkit
         if re.search(r"(?:#1|H)", self.smarts):
@@ -82,10 +105,16 @@ class Transformation:
                 # print(type(ex))
         return res
 
-    def simplify(self, **params: SimplifierParams):
+    def simplify(self, **params: SimplifierParams) -> List[Transformation]:
         """
+        Simplify the transformation by removing non changing atoms that are not
+        'connected' to the reaction site (i.e. atoms that changes).
+
         Args:
             params: Propagation params
+
+        Returns:
+            List of simplified transformations.
         """
         results = TransformationSimplifier(self.smarts, **params)
         return [
@@ -93,7 +122,11 @@ class Transformation:
             for smarts in results.simplified_smarts
         ]
 
-    def reverse(self):
+    def reverse(self) -> Transformation:
+        """
+        Reverse the way of the transformation,
+        i.e. reactant become product and product become reactant.
+        """
         smarts = self.smarts.split(">>")
         smarts.reverse()
         self._set_from_smarts(">>".join(smarts))

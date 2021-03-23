@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import List, Tuple
 import numpy as np
 from rdkit import Chem
@@ -8,10 +9,10 @@ AROMATICITY_MODEL = Chem.rdmolops.AromaticityModel.AROMATICITY_MDL
 
 class Molecule:
     """
-    Instance of molecule.
+    Instance of molecule using RDKit `Mol` class.
 
     It's instantiate by providing SMILES but it's also possible to use `from_rdkit()` class method
-    to instantiate from `rdkit` `Mol` instance.
+    to instantiate from RDKit `Mol` instance.
 
     !!! example
         ```python
@@ -71,14 +72,17 @@ class Molecule:
         return mol
 
     def __eq__(self, other):
-        """"Comparaison betwwen two Molecule instances is done by comparing cannonical SMILES (`.smiles` property)"""
+        """
+        Comparaison betwwen two Molecule instances is done
+        by comparing cannonical SMILES (`.smiles` property)
+        """
         if not isinstance(other, Molecule):
             return NotImplemented
 
         return self.smiles == other.smiles
 
     @classmethod
-    def from_rdkit(cls, rdkit: Chem.Mol) -> "chem_kit.Molecule":
+    def from_rdkit(cls, rdkit: Chem.Mol) -> Molecule:
         """
         Instanciate by providing a RDKit instance rather than a smiles.
 
