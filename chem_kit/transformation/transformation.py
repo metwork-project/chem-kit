@@ -4,7 +4,7 @@ from rdkit.Chem import AllChem
 from chem_kit.molecule import Molecule
 from ..chem_doodle import ChemDoodle
 from .generator import SmartsFromSmiles, SmartsFromMetWorkV0
-from .reductor import TransformationReductor
+from .simplifier import TransformationSimplifier
 
 class Transformation:
     def __init__(self, smarts):
@@ -59,10 +59,10 @@ class Transformation:
         return res
 
     def simplify(self, **params):
-        reductor = TransformationReductor(self.smarts, **params)
+        results = TransformationSimplifier(self.smarts, **params)
         return [
             self.__class__(smarts).reindex_mapping()
-            for smarts in reductor.reduced_smarts
+            for smarts in results.simplified_smarts
         ]
 
     def reverse(self):

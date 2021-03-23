@@ -16,40 +16,40 @@ class PropagationParams:
                 setattr(self, attr, value)
 
 
-class TransformationReductor:
+class TransformationSimplifier:
 
-    reduced_smarts = None
+    simplified_smarts = None
 
     def __init__(self, smarts, **params):
         self.params = PropagationParams(**params)
         self._full_smarts = smarts
-        self.reduce_smarts()
+        self.simplify_smarts()
 
     @property
     def full_smarts(self):
         return self._full_smarts
 
-    def reduce_smarts(self):
+    def simplify_smarts(self):
         mols = [Chem.MolFromSmarts(sm) for sm in self.full_smarts.split(">>")]
         mcs = rdFMCS.FindMCS(mols).queryMol
 
         _ = [mol.GetSubstructMatch(mcs) for mol in mols]
 
-        reductors = [MoleculeReductor(mol, self.params) for mol in mols]
+        mol_simplifiers = [MoleculeSimplifier(mol, self.params) for mol in mols]
 
-        for reductor in reductors:
-            reductor.init_keep()
+        for ms in mol_simplifiers:
+            ms.init_keep()
 
-        self.keep_for_bond_diff(reductors)
+        self.keep_for_bond_diff(mol_simplifiers)
 
-        for reductor in reductors:
-            reductor.propagate_map_to_keep()
+        for ms in mol_simplifiers:
+            ms.propagate_map_to_keep()
 
-        self.keep_for_bond_diff(reductors)
+        self.keep_for_bond_diff(mol_simplifiers)
 
-        self.join_mapped_atoms(reductors)
+        self.join_mapped_atoms(mol_simplifiers)
 
-        smarts = [Chem.MolToSmarts(reductor.mol) for reductor in reductors]
+        smarts = [Chem.MolToSmarts(ms.mol) for ms in mol_simplifiers]
         splits = [sm.split(".") for sm in smarts]
 
         splits = [
@@ -67,31 +67,31 @@ class TransformationReductor:
 
         smarts = list(set(smarts) - {">>"})
 
-        self.reduced_smarts = smarts
+        self.simplified_smarts = smarts
 
-    def join_mapped_atoms(self, reductors):
+    def join_mapped_atoms(self, mol_simplifiers):
         map_to_keep = set([])
-        for reductor in reductors:
-            map_to_keep = map_to_keep | reductor.map_to_keep
-        for reductor in reductors:
-            reductor.map_to_keep = map_to_keep
-            reductor.remove_atoms()
+        for ms in mol_simplifiers:
+            map_to_keep = map_to_keep | ms.map_to_keep
+        for ms in mol_simplifiers:
+            ms.map_to_keep = map_to_keep
+            ms.remove_atoms()
 
     @staticmethod
-    def keep_for_bond_diff(reductors):
+    def keep_for_bond_diff(mol_simplifiers):
         map_to_keep = set()
-        bond_types = [reductor.get_bond_types() for reductor in reductors]
+        bond_types = [ms.get_bond_types() for ms in mol_simplifiers]
         bond_types_keys = [set(bond_type.keys()) for bond_type in bond_types]
         bond_types_keys = set().union(*bond_types_keys)
         for key in bond_types_keys:
             values = set([bond_type.get(key, tuple()) for bond_type in bond_types])
             if len(values) > 1:
                 map_to_keep = map_to_keep | set(key)
-        for reductor in reductors:
-            reductor.map_to_keep = reductor.map_to_keep | map_to_keep
+        for ms in mol_simplifiers:
+            ms.map_to_keep = ms.map_to_keep | map_to_keep
 
 
-class MoleculeReductor:
+class MoleculeSimplifier:
     def __init__(self, mol, params: PropagationParams):
         self.params = params
         self.mol = mol
@@ -177,9 +177,9 @@ class MoleculeReductor:
 
 
 class AtomVisitor:
-    def __init__(self, mol_reductor, atom, params: PropagationParams):
+    def __init__(self, mol_simplifier, atom, params: PropagationParams):
         self.params = params
-        self.mol_reductor = mol_reductor
+        self.mol_simplifier = mol_simplifier
         self.atom = atom
 
     @property
@@ -196,7 +196,7 @@ class AtomVisitor:
 
     @property
     def is_keeped(self):
-        return self.map_num in self.mol_reductor.map_to_keep
+        return self.map_num in self.mol_simplifier.map_to_keep
 
     def to_propagate_from(self, from_visitor, bond, to_connector):
         if from_visitor.is_keeped and self.is_keeped:
@@ -212,11 +212,11 @@ class AtomVisitor:
         return to_connector, False
 
     def set_keep(self):
-        self.mol_reductor.append_map_to_keep(self.map_num)
+        self.mol_simplifier.append_map_to_keep(self.map_num)
 
     def propagate(self, to_connector):
         for atom, bond in self.connected_atoms():
-            visitor = self.__class__(self.mol_reductor, atom, params=self.params)
+            visitor = self.__class__(self.mol_simplifier, atom, params=self.params)
             propagate, to_connector = visitor.to_propagate_from(
                 self, bond, to_connector=to_connector
             )
