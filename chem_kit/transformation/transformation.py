@@ -3,7 +3,7 @@ from rdkit import Chem
 from rdkit.Chem import AllChem
 from chem_kit.molecule import Molecule
 from ..chem_doodle import ChemDoodle
-from .generator import TransformationFromSmiles, TransformationFromMetWorkV0
+from .generator import SmartsFromSmiles, SmartsFromMetWorkV0
 from .reductor import TransformationReductor
 
 class Transformation:
@@ -16,11 +16,11 @@ class Transformation:
 
     @classmethod
     def from_smiles(cls, reactant, product):
-        return cls(TransformationFromSmiles(reactant, product))
+        return cls(SmartsFromSmiles(reactant, product))
 
     @classmethod
     def from_metwork_v0(cls, smarts):
-        return cls(TransformationFromMetWorkV0(smarts))
+        return cls(SmartsFromMetWorkV0(smarts))
 
     @property
     def smarts(self):

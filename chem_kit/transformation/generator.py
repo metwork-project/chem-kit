@@ -2,7 +2,7 @@ from rdkit import Chem
 from rdkit.Chem import rdFMCS
 from chem_kit.molecule import Molecule, AROMATICITY_MODEL
 
-class TranformationGenerator:
+class SmartsGenerator:
 
     EXPLICIT_H_MAP_FROM = 1000
 
@@ -92,7 +92,7 @@ class TranformationGenerator:
         return rwmol
 
 
-class TransformationFromSmiles(TranformationGenerator):
+class SmartsFromSmiles(SmartsGenerator):
     @classmethod
     def list_mols(cls, *smiles):
         mols = [Molecule(sm, preserve_H=True).rdkit for sm in smiles]
@@ -105,7 +105,7 @@ class TransformationFromSmiles(TranformationGenerator):
         return mols
 
 
-class TransformationFromMetWorkV0(TranformationGenerator):
+class SmartsFromMetWorkV0(SmartsGenerator):
     @classmethod
     def get_smarts(cls, smarts):
         smarts = smarts.replace("=,:", "=")

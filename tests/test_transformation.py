@@ -1,7 +1,7 @@
 import pytest
 from rdkit.Chem import AllChem
 from chem_kit.transformation import Transformation
-from chem_kit.transformation.generator import TranformationGenerator
+from chem_kit.transformation.generator import SmartsGenerator
 
 SMARTS = "[#8:1]-[#6:2]1:[#6:3]:[#6:5]:[#6:8]:[#6:6]:[#6:4]:1-[#1:7]>>[#8:1]-[#6:2]1:[#6:3]:[#6:5]:[#6:8]:[#6:6]:[#6:4]:1-[#35:7]"
 
@@ -9,7 +9,7 @@ SMARTS = "[#8:1]-[#6:2]1:[#6:3]:[#6:5]:[#6:8]:[#6:6]:[#6:4]:1-[#1:7]>>[#8:1]-[#6
 def test_from_smarts():
     tsf = Transformation(SMARTS)
     assert tsf.smarts == SMARTS
-    smarts = TranformationGenerator(
+    smarts = SmartsGenerator(
         "[#8]-[#6]1:[#6]:[#6]:[#6]:[#6]:[#6]:1",
         "[#8]-[#6]1:[#6]:[#6]:[#6]:[#6]:[#6]:1-[#35]",
     )
