@@ -52,7 +52,7 @@ To manage other required Python librairies,
 the better way is to use [Poetry](https://python-poetry.org) on top of Conda :
 
 ```bash
-cd /path.to/chem_kit
+cd /path/to/chem_kit
 poetry install
 ```
 
