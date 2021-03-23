@@ -8,8 +8,9 @@ AROMATICITY_MODEL = Chem.rdmolops.AromaticityModel.AROMATICITY_MDL
 
 class Molecule:
     """
-    Instance of molecule. 
-    It's instantiate by providing SMILES but it's also possible to use `from_rdkit()` class method 
+    Instance of molecule.
+
+    It's instantiate by providing SMILES but it's also possible to use `from_rdkit()` class method
     to instantiate from `rdkit` `Mol` instance.
 
     !!! example
@@ -54,7 +55,6 @@ class Molecule:
         """Cannonical SMILES of the molecule"""
         return self._smiles
 
-
     @property
     def rdkit(self) -> Chem.Mol:
         """`rdkit.Chem.Mol` instance of the molecule. Use it to directly apply RDKit methods"""
@@ -81,7 +81,7 @@ class Molecule:
     def from_rdkit(cls, rdkit: Chem.Mol) -> "chem_kit.Molecule":
         """
         Instanciate by providing a RDKit instance rather than a smiles.
-        
+
         Args:
             rdkit: `rdkit.Chem.Mol` instance
 
@@ -202,7 +202,7 @@ class Molecule:
         """Yield every atom in the molecule"""
         return self.rdkit.GetAtoms()
 
-    def get_ring_systems(self, includeSpiro:bool=False) -> List[set]:
+    def get_ring_systems(self, includeSpiro: bool = False) -> List[set]:
         """
         Get all ring systems.
 
@@ -215,7 +215,7 @@ class Molecule:
         return self._get_ring_systems(self.rdkit, includeSpiro=includeSpiro)
 
     @staticmethod
-    def _get_ring_systems(mol, includeSpiro:bool=False):
+    def _get_ring_systems(mol, includeSpiro: bool = False):
         ring_info = mol.GetRingInfo()
         systems = []
         for ring in ring_info.AtomRings():

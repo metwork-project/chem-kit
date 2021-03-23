@@ -1,10 +1,12 @@
 import re
 from rdkit import Chem
 
+
 class ChemDoodle:
     """
     Utils to use [ChemDoolde JSON format](https://web.chemdoodle.com/docs/chemdoodle-json-format)
     """
+
     @classmethod
     def mol_rdkit_to_json(cls, mr, begin_id={"a": 0, "b": 0}):
 

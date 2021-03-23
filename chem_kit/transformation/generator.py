@@ -2,6 +2,7 @@ from rdkit import Chem
 from rdkit.Chem import rdFMCS
 from chem_kit.molecule import Molecule, AROMATICITY_MODEL
 
+
 class SmartsGenerator:
 
     EXPLICIT_H_MAP_FROM = 1000
