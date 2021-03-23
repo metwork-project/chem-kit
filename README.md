@@ -19,9 +19,9 @@ ChemKit is a chemical toolbox based on [RDKit](https://www.rdkit.org/) with curr
 - Facilitate the usage of the [RDKIt Python API](https://www.rdkit.org/docs/api-docs.html)
  with some more easy to use classes that can occasionally fix some bug (especially with Jupyter rendering).
 
-- Provide custom method for the [MetWork](http://www.metwork.science) project
+- Provide tailored methods for the [MetWork](http://www.metwork.science) project
 
-## Usage
+## Usage
 
 ### Manipulate Molecules
 
@@ -38,3 +38,22 @@ ChemKit is a chemical toolbox based on [RDKit](https://www.rdkit.org/) with curr
 ```
 
 More examples with [Jupyter notebook](http://chem-kit.metwork.science/jupyter_example/)
+
+## Install
+
+Like RDKit, ChemKit needs [Conda](https://docs.conda.io) :
+
+```bash
+conda env install -f conda-env.yml
+conda activate chem_kit
+```
+
+To manage other required Python librairies, 
+the better way is to use [Poetry](https://python-poetry.org) on top of Conda :
+
+```bash
+cd /path.to/chem_kit
+poetry install
+```
+
+> Poetry manipulate python packages directly on Conda env.
