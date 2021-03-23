@@ -37,4 +37,4 @@ ChemKit is a chemical toolbox based on [RDKit](https://www.rdkit.org/) with curr
     tsf = Transformation("[#6:1]-[#8:2]-[#1:3]>>[#6:1]-[#8:2]-[#6:3](-[#1])(-[#1])-[#1]")
 ```
 
-More examples with [Jupyter notebook](usage_example)
+More examples with [Jupyter notebook](http://chem-kit.metwork.science/jupyter_example/)
