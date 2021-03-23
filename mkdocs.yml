@@ -19,8 +19,9 @@ plugins:
             show_root_toc_entry: false
             show_root_full_path: false
             show_source: false
-            show_if_no_docstring: true
-            group_by_category: true
+            show_if_no_docstring: false
+            group_by_category: false
+            heading_level: 3
       watch:
         - chem_kit
   - mknotebooks

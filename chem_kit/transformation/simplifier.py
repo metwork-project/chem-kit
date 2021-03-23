@@ -1,19 +1,27 @@
 import re
+from pydantic import BaseModel, Field
 from rdkit import Chem
 from rdkit.Chem import rdFMCS
 from chem_kit.molecule import Molecule
 
 
-class PropagationParams:
-    hetero_atoms = True
-    aromatic = True
-    conjugated = False
-    cycles = False
-
-    def __init__(self, **kwargs):
-        for attr, value in kwargs.items():
-            if hasattr(self, attr):
-                setattr(self, attr, value)
+class SimplifierParams(BaseModel):
+    hetero_atoms: bool = Field(
+        True,
+        description="Include hetero atoms close to transformation site",
+    )
+    aromatic: bool = Field(
+        True,
+        description="Include aromatic cycles close to transformation site",
+    )
+    conjugated: bool = Field(
+        False,
+        description="Include conjugated bonds close to transformation site",
+    )
+    cycles: bool = Field(
+        False,
+        description="Include cycles close to transformation site",
+    )
 
 
 class TransformationSimplifier:
@@ -21,7 +29,7 @@ class TransformationSimplifier:
     simplified_smarts = None
 
     def __init__(self, smarts, **params):
-        self.params = PropagationParams(**params)
+        self.params = SimplifierParams(**params)
         self._full_smarts = smarts
         self.simplify_smarts()
 
@@ -92,7 +100,7 @@ class TransformationSimplifier:
 
 
 class MoleculeSimplifier:
-    def __init__(self, mol, params: PropagationParams):
+    def __init__(self, mol, params: SimplifierParams):
         self.params = params
         self.mol = mol
         self.mol_smiles = Molecule(Chem.MolToSmiles(mol), preserve_H=True)
@@ -177,7 +185,7 @@ class MoleculeSimplifier:
 
 
 class AtomVisitor:
-    def __init__(self, mol_simplifier, atom, params: PropagationParams):
+    def __init__(self, mol_simplifier, atom, params: SimplifierParams):
         self.params = params
         self.mol_simplifier = mol_simplifier
         self.atom = atom

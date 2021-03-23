@@ -4,14 +4,16 @@ from rdkit.Chem import AllChem
 from chem_kit.molecule import Molecule
 from ..chem_doodle import ChemDoodle
 from .generator import SmartsFromSmiles, SmartsFromMetWorkV0
-from .simplifier import TransformationSimplifier
+from .simplifier import TransformationSimplifier, SimplifierParams
 
 
 class Transformation:
     """
     Instance of (bio-)transformation, a.k.a Reaction in RDKit.
 
-    It's instantiate by providing SMARTS but it's also possible to `from_smiles()` and `from_metwork_v0()` class method.
+    It's instantiate by providing SMARTS
+    but it's also possible to `from_smiles()`
+    and `from_metwork_v0()` class method.
 
     !!! example
         ```python
@@ -80,7 +82,11 @@ class Transformation:
                 # print(type(ex))
         return res
 
-    def simplify(self, **params):
+    def simplify(self, **params: SimplifierParams):
+        """
+        Args:
+            params: Propagation params
+        """
         results = TransformationSimplifier(self.smarts, **params)
         return [
             self.__class__(smarts)._reindex_mapping()

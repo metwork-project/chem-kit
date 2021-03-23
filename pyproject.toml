@@ -9,6 +9,7 @@ python = "^3.7.1"
 pandas = "^1.2.1"
 numpy = "^1.19.5"
 ipython = "^7.21.0"
+pydantic = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
 jupyterlab = "^3.0.6"
@@ -25,6 +26,7 @@ mkdocs-material = "^7.0.6"
 markdown-include = "^0.6.0"
 pymdown-extensions = "^8.1.1"
 mknotebooks = "^0.6.2"
+flake8 = "^3.9.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
