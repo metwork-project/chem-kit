@@ -8,7 +8,7 @@
 
 ---
 
-**Documentation**: <a href="https://github.com/YannBeauxis/chem-kit" target="_blank">https://github.com/YannBeauxis/chem-kit</a>
+**Documentation**: <a href="http://chem-kit.metwork.science/" target="_blank">http://chem-kit.metwork.science/</a>
 
 **Source Code**: <a href="https://github.com/YannBeauxis/chem-kit" target="_blank">https://github.com/YannBeauxis/chem-kit</a>
 
@@ -36,3 +36,5 @@ ChemKit is a chemical toolbox based on [RDKit](https://www.rdkit.org/) with curr
     from chem_kit import Transformation
     tsf = Transformation("[#6:1]-[#8:2]-[#1:3]>>[#6:1]-[#8:2]-[#6:3](-[#1])(-[#1])-[#1]")
 ```
+
+More examples with [Jupyter notebook](usage_example)
