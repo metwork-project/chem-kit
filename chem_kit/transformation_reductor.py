@@ -127,7 +127,7 @@ class MoleculeReductor:
         systems = mol_smiles.get_ring_systems()
         idx_to_keep = set([])
 
-        for atom in mol_smiles.iter_atoms():
+        for atom in mol_smiles.get_atoms():
             if atom.GetAtomMapNum() in self.map_to_keep:
                 for system in systems:
                     if atom.GetIdx() in system:
