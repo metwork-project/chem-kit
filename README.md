@@ -48,7 +48,7 @@ conda env install -f conda-env.yml
 conda activate chem_kit
 ```
 
-To manage other required Python librairies, 
+To manage other required Python packages, 
 the better way is to use [Poetry](https://python-poetry.org) on top of Conda :
 
 ```bash
@@ -56,4 +56,4 @@ cd /path/to/chem_kit
 poetry install
 ```
 
-> Poetry manipulate python packages directly on Conda env.
+> Poetry manipulate Python packages directly on Conda env.
