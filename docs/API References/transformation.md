@@ -4,7 +4,6 @@
     rendering:
         show_if_no_docstring: true
 
-## Simplifier params
+## SimplifierParams
 
 ::: chem_kit.transformation.simplifier.SimplifierParams
-

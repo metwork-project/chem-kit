@@ -105,13 +105,13 @@ class Transformation:
                 # print(type(ex))
         return res
 
-    def simplify(self, **params: SimplifierParams) -> List[Transformation]:
+    def simplify(self, **params) -> List[Transformation]:
         """
         Simplify the transformation by removing non changing atoms that are not
         'connected' to the reaction site (i.e. atoms that changes).
 
         Args:
-            params: Propagation params
+            params: See [SimplifierParams](transformation.md#simplifierparams)
 
         Returns:
             List of simplified transformations.
