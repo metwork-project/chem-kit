@@ -21,8 +21,6 @@ class Molecule:
         ```
     """
 
-    _AROMATICITY_MODEL = AROMATICITY_MODEL
-
     def __init__(
         self,
         smiles: str,

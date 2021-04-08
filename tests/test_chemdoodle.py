@@ -82,4 +82,3 @@ def test_transformation():
     }
 
     assert tsf.chemdoodle_json == chemdoodle_json
-    assert False

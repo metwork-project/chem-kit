@@ -3,4 +3,4 @@ channels:
   - conda-forge
 dependencies:
   - python=3.8
-  - rdkit=2020.09.1
+  - rdkit=2021.03.1
