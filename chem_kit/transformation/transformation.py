@@ -72,6 +72,18 @@ class Transformation:
         return self._rdkit
 
     @property
+    def reactant(self):
+        return Molecule.from_rdkit(self.rdkit.GetReactants()[0])
+
+    @property
+    def product(self):
+        return Molecule.from_rdkit(self.rdkit.GetProducts()[0])
+
+    @property
+    def mass_delta(self):
+        return self.product.mass - self.reactant.mass
+
+    @property
     def chemdoodle_json(self) -> dict:
         """
         [ChemDoodle JSON](https://web.chemdoodle.com/docs/chemdoodle-json-format)

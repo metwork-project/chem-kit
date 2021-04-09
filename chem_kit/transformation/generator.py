@@ -60,7 +60,8 @@ class SmartsGenerator:
     def get_common_atoms(cls, *mols):
         mcs = rdFMCS.FindMCS(
             mols,
-            atomCompare=rdFMCS.AtomCompare.CompareAny,
+            # atomCompare=rdFMCS.AtomCompare.CompareAny,
+            atomCompare=rdFMCS.AtomCompare.CompareElements,
             bondCompare=rdFMCS.BondCompare.CompareAny,
             # ringCompare=Chem.rdFMCS.RingCompare.StrictRingFusion,
             # ringCompare=Chem.rdFMCS.RingCompare.PermissiveRingFusion,

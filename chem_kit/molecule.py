@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import List, Tuple
 import numpy as np
 from rdkit import Chem
+from rdkit.Chem import Descriptors
 from rdkit.Chem.Draw import IPythonConsole
 
 AROMATICITY_MODEL = Chem.rdmolops.AromaticityModel.AROMATICITY_MDL
@@ -63,6 +64,10 @@ class Molecule:
     def smiles_kekulized(self):
         """Kekulized SMILES of the molecule"""
         return Chem.MolToSmiles(self._kekulize_rdkit())
+
+    @property
+    def mass(self):
+        return Descriptors.MolWt(self.rdkit)
 
     def _kekulize_rdkit(self):
         mol = self.rdkit

@@ -213,7 +213,7 @@ class AtomVisitor:
             return True, False
         if bond.GetIsConjugated() and self.params.conjugated:
             return True, to_connector
-        if self.is_hetero and self.params.hetero_atoms:
+        if (self.is_hetero or from_visitor.is_hetero) and self.params.hetero_atoms:
             return True, to_connector
         if from_visitor.is_hetero and self.params.hetero_atoms and to_connector:
             return True, self.is_hetero
