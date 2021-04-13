@@ -245,3 +245,11 @@ def test_simplify_keep_conjugated(conjugated, smarts):
     tsf = Transformation.from_smiles(*smiles)
     simp = tsf.simplify(conjugated=conjugated)[0]
     assert simp.smarts == smarts
+
+
+def test_handle_charge():
+    tsf = Transformation(
+        "[#6:1]-[#7&+:2](-[#6:3])(-[#6])-[#6:4]-[#6:5](=[#8:6])-[#8&-:7]>>[#6:1]-[#7:2](-[#6:3])-[#6:4]-[#6:5](=[#8:6])-[#8:7]"
+    )
+    assert tsf.mass_delta < 0
+    assert [simp.smarts for simp in tsf.simplify()] == ["[#7&+:1]-[#6]>>[#7:1]"]

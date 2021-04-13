@@ -62,7 +62,10 @@ class TransformationSimplifier:
 
         splits = [
             [
-                {"smarts": sm, "mapped": set(re.findall(r"\[#\d+:(\d+)\]", sm))}
+                {
+                    "smarts": sm,
+                    "mapped": set(re.findall(r"\[#\d+(?:\&(?:\++|-))?:(\d+)\]", sm)),
+                }
                 for sm in split
             ]
             for split in splits
@@ -102,6 +105,7 @@ class TransformationSimplifier:
 class MoleculeSimplifier:
     def __init__(self, mol, params: SimplifierParams):
         self.params = params
+        mol = Molecule.resolve_charge(mol)
         self.mol = mol
         self.mol_smiles = Molecule(Chem.MolToSmiles(mol), preserve_H=True)
         self.map_to_keep = set()
@@ -213,7 +217,7 @@ class AtomVisitor:
             return True, False
         if bond.GetIsConjugated() and self.params.conjugated:
             return True, to_connector
-        if (self.is_hetero or from_visitor.is_hetero) and self.params.hetero_atoms:
+        if self.is_hetero and self.params.hetero_atoms:
             return True, to_connector
         if from_visitor.is_hetero and self.params.hetero_atoms and to_connector:
             return True, self.is_hetero

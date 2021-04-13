@@ -1,5 +1,6 @@
 from __future__ import annotations
 from typing import List, Tuple
+import re
 import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Descriptors
@@ -95,8 +96,19 @@ class Molecule:
         Returns:
             Molecule instance
         """
+        rdkit = cls.resolve_charge(rdkit)
         smiles = Chem.MolToSmiles(rdkit)
         return cls(smiles)
+
+    @staticmethod
+    def resolve_charge(rdkit):
+        map_charge = re.findall(r"\[#\d+\&(\++):(\d+)]", Chem.MolToSmarts(rdkit))
+        map_charge = {int(map_num): len(charge) for charge, map_num in map_charge}
+        for atom in rdkit.GetAtoms():
+            charge = map_charge.get(atom.GetAtomMapNum())
+            if charge:
+                atom.SetFormalCharge(charge)
+        return rdkit
 
     def _set_aromaticity_model(self, aromaticity):
         self._AROMATICITY_MODEL = getattr(
