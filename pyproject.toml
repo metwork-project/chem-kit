@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "chem-kit"
-version = "0.1.1"
+version = "0.1.2"
 description = "A chemical toolbox based on RDKit"
 authors = ["Yann Beauxis <dev@yannbeauxis.net>"]
 license = "GPL-3.0-only"
