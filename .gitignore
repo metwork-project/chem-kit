@@ -6,3 +6,5 @@
 dist
 notebooks
 site
+.python-version
+publish_docs.sh
