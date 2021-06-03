@@ -10,7 +10,7 @@
 
 **Documentation**: <a href="http://chem-kit.metwork.science/" target="_blank">http://chem-kit.metwork.science/</a>
 
-**Source Code**: <a href="https://github.com/YannBeauxis/chem-kit" target="_blank">https://github.com/YannBeauxis/chem-kit</a>
+**Source Code**: <a href="https://github.com/metwork-project/chem-kit" target="_blank">https://github.com/metwork-project/chem-kit</a>
 
 ---
 
