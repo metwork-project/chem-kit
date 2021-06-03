@@ -44,7 +44,7 @@ More examples with [Jupyter notebook](http://chem-kit.metwork.science/jupyter_ex
 Like RDKit, ChemKit needs [Conda](https://docs.conda.io) :
 
 ```bash
-conda env install -f conda-env.yml
+conda env create -f conda-env.yml
 conda activate chem_kit
 ```
 
